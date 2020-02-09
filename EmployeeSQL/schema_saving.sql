@@ -71,15 +71,29 @@ From salaries
 Inner join employees on
 salaries.emp_no = employees.emp_no;
 
---hw question 2 code
---list employees who were hired in 1986
-select * from employees
+-- HW question 2 code
+-- List employees who were hired in 1986
+select emp_no, last_name, first_name, hire_date from employees
 where
 	hire_date >= '19860101' and
-	hire_date <= '19861231'
-	;  
+	hire_date <= '19861231'; 
 	
-	testing! testing again!
+-- HW question 3 code
+-- List the manager of each department with the following information: 
+-- Department number, department name, the manager's employee number, last name, first name, and 
+-- Start and end employment dates.
+select departments.dept_no, departments.dept_name, dept_manager.emp_no, dept_manager.from_date, dept_manager.to_date
+from dept_manager
+inner join departments on
+dept_manager.dept_no = departments.dept_no
+
+
+
+select employees.emp_no, employees.last_name, employees.first_name, salaries.salary, employees.gender
+From salaries
+Inner join employees on
+salaries.emp_no = employees.emp_no;
+
 
 
 
