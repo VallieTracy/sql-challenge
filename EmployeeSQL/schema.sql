@@ -114,7 +114,6 @@ where first_name = 'Hercules' and last_name like 'B%';
 -- HW question 6 code
 -- List all employees in the Sales department, including their employee number, 
 -- last name, first name, and department name.
--- DELETE later...Sales is d007
 
 SELECT emp_no, last_name, first_name
 FROM employees
@@ -124,8 +123,15 @@ WHERE emp_no in
   	 where dept_no in
   		(select dept_no
          from departments
-    	 where dept_name = 'Sales'));
+    	 where dept_name = 'Sales'))
 UNION ALL
-SELECT id
-FROM customer_list
-WHERE city = 'London';
+SELECT emp_no, last_name, first_name
+FROM employees
+WHERE emp_no in
+	(select emp_no
+     from dept_emp
+  	 where dept_no in
+  		(select dept_no
+         from departments
+    	 where dept_name = 'Sales'));
+
