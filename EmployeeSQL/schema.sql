@@ -95,3 +95,17 @@ dept_manager.emp_no = employees.emp_no;
 -- HW question 4 code
 -- List the department of each employee with the following information: 
 -- employee number, last name, first name, and department name.
+
+select employees.emp_no as "Emp No", employees.last_name as "Last Name", 
+	employees.first_name as "First Name", departments.dept_name as "Dept Name"
+from employees
+inner join dept_emp on
+employees.emp_no = dept_emp.emp_no
+inner join departments on
+dept_emp.dept_no = departments.dept_no;
+
+-- HW question 5 code
+-- List all employees whose first name is "Hercules" and last names begin with "B."
+
+select first_name, last_name from employees
+where first_name = 'Hercules' and last_name like 'B%';
