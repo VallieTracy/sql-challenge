@@ -163,6 +163,22 @@ WHERE emp_no in
 -- including their employee number, last name, first name, and department name.
 -- STILL NEEDS DEPT NAME
 
+select departments.dept_name, employees.emp_no, employees.last_name, employees.first_name
+from departments
+inner join dept_manager on
+departments.dept_no = dept_manager.dept_no
+inner join employees on
+dept_manager.emp_no = employees.emp_no
+where dept_name IN ('Sales', 'Development')
+UNION ALL
+select departments.dept_name, employees.emp_no, employees.last_name, employees.first_name
+from departments
+inner join dept_emp on
+departments.dept_no = dept_emp.dept_no
+inner join employees on
+dept_emp.emp_no = employees.emp_no
+where dept_name IN ('Sales', 'Development');
+
 select * from departments;
 SELECT emp_no, last_name, first_name
 FROM employees
