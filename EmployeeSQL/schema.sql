@@ -81,19 +81,17 @@ where
 -- HW question 3 code
 -- List the manager of each department with the following information: 
 -- Department number, department name, the manager's employee number, last name, first name, and 
--- Start and end employment dates.
-select departments.dept_no, departments.dept_name, dept_manager.emp_no, dept_manager.from_date, dept_manager.to_date
-from dept_manager
-inner join departments on
-dept_manager.dept_no = departments.dept_no
+-- Start and end employment dates. 
 
+select departments.dept_no as "Dept No", departments.dept_name as "Dept Name", dept_manager.emp_no as
+	"Emp No", employees.last_name as "Last Name", employees.first_name as "First Name", 
+	dept_manager.from_date as "Start Date", dept_manager.to_date as "End Date"
+from departments
+inner join dept_manager on
+departments.dept_no = dept_manager.dept_no
+inner join employees on
+dept_manager.emp_no = employees.emp_no;
 
-
-select employees.emp_no, employees.last_name, employees.first_name, salaries.salary, employees.gender
-From salaries
-Inner join employees on
-salaries.emp_no = employees.emp_no;
-
-
-
-
+-- HW question 4 code
+-- List the department of each employee with the following information: 
+-- employee number, last name, first name, and department name.
