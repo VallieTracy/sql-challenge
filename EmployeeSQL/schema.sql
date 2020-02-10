@@ -115,6 +115,28 @@ where first_name = 'Hercules' and last_name like 'B%';
 -- List all employees in the Sales department, including their employee number, 
 -- last name, first name, and department name.
 -- STILL NEEDS DEPT NAME
+-- 'departments', 'employees', 'dept_manager', dept_emp
+select departments.dept_name, employees.emp_no, employees.last_name, employees.first_name
+from departments
+inner join dept_manager on
+departments.dept_no = dept_manager.dept_no
+inner join employees on
+dept_manager.emp_no = employees.emp_no
+where dept_name = 'Sales'
+UNION ALL
+select departments.dept_name, employees.emp_no, employees.last_name, employees.first_name
+from departments
+inner join dept_emp on
+departments.dept_no = dept_emp.dept_no
+inner join employees on
+dept_emp.emp_no = employees.emp_no
+where dept_name = 'Sales';
+
+select employees.emp_no, employees.last_name, employees.first_name, salaries.salary, employees.gender
+From salaries
+Inner join employees on
+salaries.emp_no = employees.emp_no
+where salary = '40000';
 
 SELECT emp_no, last_name, first_name
 FROM employees
@@ -161,3 +183,18 @@ WHERE emp_no in
   		(select dept_no
          from departments
     	 where dept_name IN ('Development', 'Sales')));
+		 
+-- HW 8 question code
+-- In descending order, list the frequency count of employee last names, 
+-- i.e., how many employees share each last name.
+-- below is code looking at how to get dept_name for hw questions 6 and 7
+select departments.dept_name, dept_manager.from_date
+from departments
+inner join dept_manager on
+departments.dept_no = dept_manager.dept_no;
+
+select employees.emp_no, employees.last_name, employees.first_name, salaries.salary, employees.gender
+From salaries
+Inner join employees on
+salaries.emp_no = employees.emp_no
+where salary = '40000';
