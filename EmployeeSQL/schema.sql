@@ -73,7 +73,8 @@ salaries.emp_no = employees.emp_no;
 
 -- HW question 2 code
 -- List employees who were hired in 1986
-select emp_no, last_name, first_name, hire_date from employees
+select emp_no, last_name, first_name, hire_date 
+from employees
 where
 	hire_date >= '19860101' and
 	hire_date <= '19861231'; 
@@ -109,3 +110,22 @@ dept_emp.dept_no = departments.dept_no;
 
 select first_name, last_name from employees
 where first_name = 'Hercules' and last_name like 'B%';
+
+-- HW question 6 code
+-- List all employees in the Sales department, including their employee number, 
+-- last name, first name, and department name.
+-- DELETE later...Sales is d007
+
+SELECT emp_no, last_name, first_name
+FROM employees
+WHERE emp_no in
+	(select emp_no
+     from dept_manager
+  	 where dept_no in
+  		(select dept_no
+         from departments
+    	 where dept_name = 'Sales'));
+UNION ALL
+SELECT id
+FROM customer_list
+WHERE city = 'London';
