@@ -114,6 +114,7 @@ where first_name = 'Hercules' and last_name like 'B%';
 -- HW question 6 code
 -- List all employees in the Sales department, including their employee number, 
 -- last name, first name, and department name.
+-- STILL NEEDS DEPT NAME
 
 SELECT emp_no, last_name, first_name
 FROM employees
@@ -135,3 +136,28 @@ WHERE emp_no in
          from departments
     	 where dept_name = 'Sales'));
 
+-- HW question 7 code
+-- List all employees in the Sales and Development departments, 
+-- including their employee number, last name, first name, and department name.
+-- STILL NEEDS DEPT NAME
+
+select * from departments;
+SELECT emp_no, last_name, first_name
+FROM employees
+WHERE emp_no in
+	(select emp_no
+     from dept_manager
+  	 where dept_no in
+  		(select dept_no
+         from departments
+    	 where dept_name IN ('Development', 'Sales')))
+UNION ALL
+SELECT emp_no, last_name, first_name
+FROM employees
+WHERE emp_no in
+	(select emp_no
+     from dept_emp
+  	 where dept_no in
+  		(select dept_no
+         from departments
+    	 where dept_name IN ('Development', 'Sales')));
