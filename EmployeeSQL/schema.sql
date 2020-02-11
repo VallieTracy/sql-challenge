@@ -203,14 +203,8 @@ WHERE emp_no in
 -- HW 8 question code
 -- In descending order, list the frequency count of employee last names, 
 -- i.e., how many employees share each last name.
--- below is code looking at how to get dept_name for hw questions 6 and 7
-select departments.dept_name, dept_manager.from_date
-from departments
-inner join dept_manager on
-departments.dept_no = dept_manager.dept_no;
 
-select employees.emp_no, employees.last_name, employees.first_name, salaries.salary, employees.gender
-From salaries
-Inner join employees on
-salaries.emp_no = employees.emp_no
-where salary = '40000';
+select last_name, count(last_name) as "last_name_count"
+from employees
+group by last_name
+order by "last_name_count" DESC;
