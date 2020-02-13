@@ -114,8 +114,7 @@ where first_name = 'Hercules' and last_name like 'B%';
 -- HW question 6 code
 -- List all employees in the Sales department, including their employee number, 
 -- last name, first name, and department name.
--- STILL NEEDS DEPT NAME
--- 'departments', 'employees', 'dept_manager', dept_emp
+
 select departments.dept_name, employees.emp_no, employees.last_name, employees.first_name
 from departments
 inner join dept_manager on
@@ -132,36 +131,9 @@ inner join employees on
 dept_emp.emp_no = employees.emp_no
 where dept_name = 'Sales';
 
-select employees.emp_no, employees.last_name, employees.first_name, salaries.salary, employees.gender
-From salaries
-Inner join employees on
-salaries.emp_no = employees.emp_no
-where salary = '40000';
-
-SELECT emp_no, last_name, first_name
-FROM employees
-WHERE emp_no in
-	(select emp_no
-     from dept_manager
-  	 where dept_no in
-  		(select dept_no
-         from departments
-    	 where dept_name = 'Sales'))
-UNION ALL
-SELECT emp_no, last_name, first_name
-FROM employees
-WHERE emp_no in
-	(select emp_no
-     from dept_emp
-  	 where dept_no in
-  		(select dept_no
-         from departments
-    	 where dept_name = 'Sales'));
-
 -- HW question 7 code
 -- List all employees in the Sales and Development departments, 
 -- including their employee number, last name, first name, and department name.
--- STILL NEEDS DEPT NAME
 
 select departments.dept_name, employees.emp_no, employees.last_name, employees.first_name
 from departments
@@ -178,27 +150,6 @@ departments.dept_no = dept_emp.dept_no
 inner join employees on
 dept_emp.emp_no = employees.emp_no
 where dept_name IN ('Sales', 'Development');
-
-select * from departments;
-SELECT emp_no, last_name, first_name
-FROM employees
-WHERE emp_no in
-	(select emp_no
-     from dept_manager
-  	 where dept_no in
-  		(select dept_no
-         from departments
-    	 where dept_name IN ('Development', 'Sales')))
-UNION ALL
-SELECT emp_no, last_name, first_name
-FROM employees
-WHERE emp_no in
-	(select emp_no
-     from dept_emp
-  	 where dept_no in
-  		(select dept_no
-         from departments
-    	 where dept_name IN ('Development', 'Sales')));
 		 
 -- HW 8 question code
 -- In descending order, list the frequency count of employee last names, 
