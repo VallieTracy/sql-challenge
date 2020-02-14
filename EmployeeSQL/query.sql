@@ -1,71 +1,75 @@
--- Exported from QuickDBD: https://www.quickdatabasediagrams.com/
--- Link to schema: https://app.quickdatabasediagrams.com/#/d/zSXFbz
--- NOTE! If you have used non-SQL datatypes in your design, you will have to change these here.
+--hw question 1 code
+--list the following details of each employee: employee number, last name, first name, gender, and salary
+select employees.emp_no, employees.last_name, employees.first_name, salaries.salary as "Salary ($)", employees.gender
+From salaries
+Inner join employees on
+salaries.emp_no = employees.emp_no;
 
+-- HW question 2 code
+-- List employees who were hired in 1986
+select emp_no, last_name, first_name, hire_date 
+from employees
+where
+	hire_date >= '19860101' and
+	hire_date <= '19861231'; 
+	
+-- HW question 3 code
+-- List the manager of each department with the following information: 
+-- Department number, department name, the manager's employee number, last name, first name, and 
+-- Start and end employment dates. 
 
-CREATE TABLE "departments" (
-    "dept_no" VARCHAR   NOT NULL,
-    "dept_name" VARCHAR   NOT NULL,
-    CONSTRAINT "pk_departments" PRIMARY KEY (
-        "dept_no"
-     )
-);
+select departments.dept_no as "Dept No", departments.dept_name as "Dept Name", dept_manager.emp_no as
+	"Emp No", employees.last_name as "Last Name", employees.first_name as "First Name", 
+	dept_manager.from_date as "Start Date", dept_manager.to_date as "End Date"
+from departments
+inner join dept_manager on
+departments.dept_no = dept_manager.dept_no
+inner join employees on
+dept_manager.emp_no = employees.emp_no;
 
-CREATE TABLE "employees" (
-    "emp_no" INT   NOT NULL,
-    "birth_date" DATE   NOT NULL,
-    "first_name" VARCHAR   NOT NULL,
-    "last_name" VARCHAR   NOT NULL,
-    "gender" VARCHAR   NOT NULL,
-    "hire_date" DATE   NOT NULL,
-    CONSTRAINT "pk_employees" PRIMARY KEY (
-        "emp_no"
-     )
-);
+-- HW question 4 code
+-- List the department of each employee with the following information: 
+-- employee number, last name, first name, and department name.
 
-CREATE TABLE "dept_emp" (
-    "emp_no" INT   NOT NULL,
-    "dept_no" VARCHAR   NOT NULL,
-    "from_date" DATE   NOT NULL,
-    "to_date" DATE   NOT NULL
-);
+select employees.emp_no as "Emp No", employees.last_name as "Last Name", 
+	employees.first_name as "First Name", departments.dept_name as "Dept Name"
+from employees
+inner join dept_emp on
+employees.emp_no = dept_emp.emp_no
+inner join departments on
+dept_emp.dept_no = departments.dept_no;
 
-CREATE TABLE "dept_manager" (
-    "dept_no" VARCHAR   NOT NULL,
-    "emp_no" INT   NOT NULL,
-    "from_date" DATE   NOT NULL,
-    "to_date" DATE   NOT NULL
-);
+-- HW question 5 code
+-- List all employees whose first name is "Hercules" and last names begin with "B."
 
-CREATE TABLE "salaries" (
-    "emp_no" INT   NOT NULL,
-    "salary" INT   NOT NULL,
-    "from_date" DATE   NOT NULL,
-    "to_date" DATE   NOT NULL
-);
+select first_name as "First Name", last_name as "Last Name" from employees
+where first_name = 'Hercules' and last_name like 'B%';
 
-CREATE TABLE "titles" (
-    "emp_no" INT   NOT NULL,
-    "title" VARCHAR   NOT NULL,
-    "from_date" DATE   NOT NULL,
-    "to_date" DATE   NOT NULL
-);
+-- HW question 6 code
+-- List all employees in the Sales department, including their employee number, 
+-- last name, first name, and department name.
 
-ALTER TABLE "dept_emp" ADD CONSTRAINT "fk_dept_emp_emp_no" FOREIGN KEY("emp_no")
-REFERENCES "employees" ("emp_no");
+--first, query to see if dept managers are also listed under dept employees
+--if they are, it will return nothing
+select emp_no from dept_manager
+where emp_no NOT IN (select distinct emp_no from dept_emp);
 
-ALTER TABLE "dept_emp" ADD CONSTRAINT "fk_dept_emp_dept_no" FOREIGN KEY("dept_no")
-REFERENCES "departments" ("dept_no");
+select departments.dept_name, employees.emp_no, employees.last_name, employees.first_name
+from departments
+inner join dept_emp on
+departments.dept_no = dept_emp.dept_no
+inner join employees on
+dept_emp.emp_no = employees.emp_no
+where dept_name = 'Sales';
 
-ALTER TABLE "dept_manager" ADD CONSTRAINT "fk_dept_manager_dept_no" FOREIGN KEY("dept_no")
-REFERENCES "departments" ("dept_no");
+-- HW question 7 code
+-- List all employees in the Sales and Development departments, 
+-- including their employee number, last name, first name, and department name.
 
-ALTER TABLE "dept_manager" ADD CONSTRAINT "fk_dept_manager_emp_no" FOREIGN KEY("emp_no")
-REFERENCES "employees" ("emp_no");
-
-ALTER TABLE "salaries" ADD CONSTRAINT "fk_salaries_emp_no" FOREIGN KEY("emp_no")
-REFERENCES "employees" ("emp_no");
-
-ALTER TABLE "titles" ADD CONSTRAINT "fk_titles_emp_no" FOREIGN KEY("emp_no")
-REFERENCES "employees" ("emp_no");
-
+select departments.dept_name, employees.emp_no, employees.last_name, employees.first_name
+from departments
+inner join dept_emp on
+departments.dept_no = dept_emp.dept_no
+inner join employees on
+dept_emp.emp_no = employees.emp_no
+where dept_name IN ('Sales', 'Development');
